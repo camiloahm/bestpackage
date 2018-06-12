@@ -1,0 +1,25 @@
+package com.mobiquityinc.packer.input;
+
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
+
+
+@Slf4j
+class FileLoader implements InputLoader {
+
+    @Override
+    public Optional<List<String>> loadFile(String path) {
+        try {
+            return Optional.ofNullable(Files.readAllLines(Paths.get(path)));
+        } catch (IOException | NullPointerException e) {
+            log.error("Something went wrong: ", e);
+            return Optional.empty();
+        }
+    }
+
+}
