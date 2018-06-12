@@ -10,14 +10,14 @@ import java.util.Optional;
 
 
 @Slf4j
-class FileLoader implements InputLoader {
+final class FileLoader implements InputLoader {
 
     @Override
     public Optional<List<String>> loadFile(String path) {
         try {
             return Optional.ofNullable(Files.readAllLines(Paths.get(path)));
         } catch (IOException | NullPointerException e) {
-            log.error("Something went wrong: ", e);
+            log.error("Something went wrong loading the file: ", e);
             return Optional.empty();
         }
     }

@@ -8,12 +8,13 @@ import com.mobiquityinc.packer.model.PackageThing;
 /**
  * Initializes dependency injection graph for mapper package
  */
-public class MapperModule extends AbstractModule {
+public final class MapperModule extends AbstractModule {
 
     @Override
     protected void configure() {
 
-        bind(new TypeLiteral<PackageThingMapper<String, PackageThing>>() {})
+        bind(new TypeLiteral<PackageThingMapper<String, PackageThing>>() {
+        })
                 .to(StringPackageThingMapper.class);
 
     }
