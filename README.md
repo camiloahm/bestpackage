@@ -11,6 +11,8 @@ It has 3 big modules
 * Mapper: this module makes necessary data transformation
 * Organizer: this module is the core API in charge of solving package problem
 
+PackerService uses this modules to build the challenge output.
+
 I try to keep all the variables immutable and responsibilities clear . I built every module using TDD then I started to assemble the app.
 
 Patterns used:
