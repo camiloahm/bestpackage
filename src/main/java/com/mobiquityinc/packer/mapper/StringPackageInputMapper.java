@@ -67,7 +67,7 @@ final class StringPackageInputMapper implements PackageInputMapper<String, Packa
      * @return PackageThing
      */
     private PackageThing getPackageThing(String thing) {
-        //Remove parenthesis "(" ")" (
+        //Remove parenthesis "(" ") and "€"" (
         final String plainThing = thing.substring(1, thing.length() - 1);
         final String plainThingWithoutMoneySign = plainThing.replaceAll("€", "");
 
