@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PackerServiceTest {
+public class DefaultPackerServiceTest {
 
     private final PackerService packerService = PackerConfiguration.initDependencies().getInstance(PackerService.class);
 

@@ -14,17 +14,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PackerTest {
 
     @Test(expected = APIException.class)
-    public void shouldThrowRuntimeIfNullArguments() {
+    public void testGetPathWithNullArguments() {
 
         Packer.getPath(null);
     }
 
-    @Test(expected = APIException.class)
-    public void shouldThrowRuntimeIfInvalidArguments() {
 
-        Packer.getPath(new String[]{"", ""});
+    @Test(expected = APIException.class)
+    public void testGetPathWithMoreThanOneArgument() {
+
+        Packer.getPath(new String[]{"http://", "123"});
     }
 
+
+    @Test
+    public void testGetPathWithValidArguments() {
+
+        String path = Packer.getPath(new String[]{"/home/camilo/Documents/dev/bestpackage/src/test/resources/in/baseCase"});
+        assertThat(path).isNotBlank();
+    }
+    
 
     @Test
     public void testPack() throws URISyntaxException {

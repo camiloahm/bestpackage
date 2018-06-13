@@ -4,6 +4,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import com.mobiquityinc.packer.exception.APIException;
 import com.mobiquityinc.packer.exception.ErrorCode;
+import com.mobiquityinc.packer.model.PackageOutput;
 import com.mobiquityinc.packer.model.PackageThing;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,21 +37,8 @@ public class Packer {
         return PackerConfiguration.initDependencies().getInstance(PackerService.class)
                 .solvePackageChallenge(path)
                 .stream()
-                .map(x -> {
-                    if (!Strings.isNullOrEmpty(x.getPackageOutput())) {
-                        return x.getPackageOutput();
-                    }
-                    String outputLine = concatPackageThings(x.getPackageThings());
-                    return Strings.isNullOrEmpty(outputLine) ? "-" : outputLine;
-                })
+                .map(OutputFormatter::getOutput)
                 .collect(Collectors.joining("\n"));
-    }
-
-    static String concatPackageThings(List<PackageThing> packageThings) {
-        return packageThings
-                .stream()
-                .map(po -> po.getThingIndex() + "")
-                .collect(Collectors.joining(","));
     }
 
     static String getPath(String[] args) {
