@@ -1,10 +1,14 @@
 package com.mobiquityinc.packer;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.base.Strings;
 import com.mobiquityinc.packer.exception.APIException;
 import com.mobiquityinc.packer.exception.ErrorCode;
+import com.mobiquityinc.packer.model.PackageOutput;
+import com.mobiquityinc.packer.model.PackageThing;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Packer application entry point
@@ -19,12 +23,28 @@ public class Packer {
         final Stopwatch stopWatch = Stopwatch.createStarted();
         final String path = getPath(args);
         final String result = pack(path);
-        log.info(result);
+        log.info("Assignment: Package Challenge");
+        log.info("Output: \n" + result);
         stopWatch.stop();
 
         log.info("The app has finished");
         log.info("Process time in ms: " + stopWatch.elapsed().toMillis());
 
+    }
+
+    static String pack(String path) {
+        return PackerConfiguration.initDependencies().getInstance(PackerService.class)
+                .solvePackageChallenge(path)
+                .stream()
+                .map(x -> concatPackageThings(x.getPackageThings()))
+                .collect(Collectors.joining("\n"));
+    }
+
+    static String concatPackageThings(List<PackageThing> packageThings) {
+        return packageThings
+                .stream()
+                .map(po -> po.getThingIndex() + "")
+                .collect(Collectors.joining(","));
     }
 
     static String getPath(String[] args) {
@@ -34,11 +54,6 @@ public class Packer {
         }
 
         return args[0];
-    }
-
-
-    static String pack(String path) {
-        return PackerConfiguration.initDependencies().getInstance(PackerService.class).solvePackageChallenge(path);
     }
 
 }

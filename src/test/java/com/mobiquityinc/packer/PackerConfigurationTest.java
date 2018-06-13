@@ -3,6 +3,8 @@ package com.mobiquityinc.packer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.mobiquityinc.packer.input.InputModule;
+import com.mobiquityinc.packer.mapper.MapperModule;
+import com.mobiquityinc.packer.organizer.OrganizerModule;
 
 /**
  * Defines a small object graph using Guice.
@@ -14,6 +16,6 @@ final class PackerConfigurationTest {
     }
 
     static Injector initDependencies() {
-        return Guice.createInjector(new InputModule());
+        return Guice.createInjector(new InputModule(), new MapperModule(), new OrganizerModule());
     }
 }

@@ -1,38 +1,41 @@
 package com.mobiquityinc.packer;
 
 import com.mobiquityinc.packer.input.InputLoader;
-import com.mobiquityinc.packer.model.PackageThing;
-import com.mobiquityinc.packer.mapper.PackageThingMapper;
+import com.mobiquityinc.packer.mapper.PackageInputMapper;
+import com.mobiquityinc.packer.model.PackageInput;
+import com.mobiquityinc.packer.model.PackageOutput;
+import com.mobiquityinc.packer.organizer.PackageOrganizer;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
- * Service that determines which things to put into the package so that the
- * total weight is less than or equal to the package limit and the total cost is as large as possible.
- * You would prefer to send a package which weights less in case there is more than one package with the
- * same price.
+ * Service that determines which things to put into the package solving the package challenge.
  */
 @Slf4j
 final class PackerService {
 
     private final InputLoader inputLoader;
-    private final PackageThingMapper<String, PackageThing> packageMapper;
+    private final PackageInputMapper<String, PackageInput> packageMapper;
+    private final PackageOrganizer packageOrganizer;
 
 
     @Inject
-    public PackerService(InputLoader inputLoader, PackageThingMapper<String, PackageThing> packageMapper) {
+    public PackerService(InputLoader inputLoader, PackageInputMapper<String, PackageInput> packageMapper, PackageOrganizer packageOrganizer) {
         this.inputLoader = inputLoader;
         this.packageMapper = packageMapper;
+        this.packageOrganizer = packageOrganizer;
     }
 
-    public String solvePackageChallenge(String path) {
+    public List<PackageOutput> solvePackageChallenge(String path) {
 
-        Optional<List<String>> lines = inputLoader.loadFile(path);
+        List<PackageInput> packages = inputLoader.loadFile(path).get()
+                .stream()
+                .map(packageMapper::map)
+                .collect(Collectors.toList());
 
-
-        return null;
+        return packageOrganizer.organize(packages);
     }
 }
