@@ -1,9 +1,11 @@
 package com.mobiquityinc.packer.mapper;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.mobiquityinc.packer.exception.APIException;
+import com.mobiquityinc.packer.exception.ErrorCode;
 import com.mobiquityinc.packer.model.PackageInput;
 import com.mobiquityinc.packer.model.PackageThing;
+import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -24,15 +26,21 @@ final class StringPackageInputMapper implements PackageInputMapper<String, Packa
     @Override
     public PackageInput map(String packageInputs) {
 
-        List<String> stringSplitOnColon = Splitter.on(':')
-                .trimResults()
-                .splitToList(packageInputs);
+        try {
+            List<String> stringSplitOnColon = Splitter.on(':')
+                    .trimResults()
+                    .splitToList(packageInputs);
 
-        return PackageInput
-                .builder()
-                .maxWeight(Float.parseFloat(stringSplitOnColon.get(0)))
-                .packageThings(getPackageThings(stringSplitOnColon.get(1)))
-                .build();
+            return PackageInput
+                    .builder()
+                    .maxWeight(Float.parseFloat(stringSplitOnColon.get(0)))
+                    .packageThings(getPackageThings(stringSplitOnColon.get(1)))
+                    .build();
+
+        } catch (NumberFormatException | NullPointerException e) {
+            throw new APIException(e, ErrorCode.INVALID_INPUT);
+        }
+
     }
 
 

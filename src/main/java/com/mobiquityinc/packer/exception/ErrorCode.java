@@ -8,7 +8,8 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 
-    INVALID_ARGS("Invalid arguments: you should only pass the input file path");
+    INVALID_ARGS("Invalid arguments: you should only pass the input file path"),
+    INVALID_INPUT("Invalid input: the valid format is <max weight> : (<item index>, <item weight>, <price>)");
 
     String message;
 

@@ -22,6 +22,13 @@ final class DefaultPackageOrganizer implements PackageOrganizer {
 
     private PackageOutput getPackageOutput(PackageInput packageInput) {
 
+        if (!packageInput.isValid()) {
+            return PackageOutput
+                    .builder()
+                    .packageOutput("Invalid Package Input")
+                    .build();
+        }
+
         int N = packageInput.getPackageThings().size();   // number of items
         int W = Math.round(packageInput.getMaxWeight());   // maximum weight
 
@@ -66,5 +73,6 @@ final class DefaultPackageOrganizer implements PackageOrganizer {
                 .packageThings(packagesToBeSent)
                 .build();
     }
+
 
 }

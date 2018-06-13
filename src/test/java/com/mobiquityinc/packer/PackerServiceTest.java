@@ -1,5 +1,6 @@
 package com.mobiquityinc.packer;
 
+import com.mobiquityinc.packer.exception.APIException;
 import com.mobiquityinc.packer.model.PackageOutput;
 import com.mobiquityinc.packer.model.PackageThing;
 import org.junit.Test;
@@ -65,4 +66,32 @@ public class PackerServiceTest {
         assertThat(packageOutputs).contains(expectedPackageOutput1);
         assertThat(packageOutputs).contains(expectedPackageOutput3);
     }
+
+
+    @Test
+    public void testInvalidInput() throws URISyntaxException {
+
+        //Given
+        String path = getClass().getClassLoader().getResource("in/baseCaseWithInvalidInput").toURI().getPath();
+        List<PackageOutput> packageOutputs = packerService.solvePackageChallenge(path);
+
+        PackageOutput expectedPackageOutput1 = PackageOutput
+                .builder()
+                .packageOutput("")
+                .build();
+
+
+        //Then
+        assertThat(packageOutputs.get(0).getPackageOutput()).isNotBlank();
+    }
+
+    @Test(expected = APIException.class)
+    public void testInvalidFile() throws URISyntaxException {
+
+        //Given
+        String path = getClass().getClassLoader().getResource("in/baseCaseWithInvalidFormat").toURI().getPath();
+        List<PackageOutput> packageOutputs = packerService.solvePackageChallenge(path);
+
+    }
+
 }
