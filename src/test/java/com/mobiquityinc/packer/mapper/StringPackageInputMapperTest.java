@@ -1,5 +1,6 @@
 package com.mobiquityinc.packer.mapper;
 
+import com.mobiquityinc.packer.exception.APIException;
 import com.mobiquityinc.packer.model.PackageInput;
 import com.mobiquityinc.packer.model.PackageThing;
 import org.junit.Test;
@@ -7,7 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class StringPackageInputMapperTest {
 
@@ -21,7 +22,6 @@ public class StringPackageInputMapperTest {
                 "(6,46.34,€48)";
         PackageInput packageInputResult = packageInputMapper.map(in);
 
-        List<PackageInput> packageInputs = new ArrayList<>();
         List<PackageThing> packageThings = new ArrayList<>();
         PackageThing packageThing1 = PackageThing
                 .builder()
@@ -80,5 +80,28 @@ public class StringPackageInputMapperTest {
         assertThat(packageInputResult.getPackageThings()).contains(packageThing4);
         assertThat(packageInputResult.getPackageThings()).contains(packageThing5);
         assertThat(packageInputResult.getPackageThings()).contains(packageThing6);
+    }
+
+    @Test(expected = APIException.class)
+    public void testWrongMappingStructure() {
+
+        //Given
+        String in = "{2,88.62,€98) (3,78.48,€3 (4,72.30,€76) (5,30.18,€9) " +
+                "(6,46.34,€48)}";
+        PackageInput packageInputResult = packageInputMapper.map(in);
+
+        //Then Expected Expection
+    }
+
+
+    @Test(expected = APIException.class)
+    public void testWrongDataMappingStructure() {
+
+        //Given
+        String in = "81 : (WrongData,€45 (2,88.62,€98) (3,78.48,€3 (4,72.30,€76) (5,30.18,€9) " +
+                "(6,46.34,€48)";
+        PackageInput packageInputResult = packageInputMapper.map(in);
+
+        //Then Expected Expection
     }
 }

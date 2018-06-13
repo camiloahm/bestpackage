@@ -1,6 +1,5 @@
 package com.mobiquityinc.packer.model;
 
-import com.google.common.base.Strings;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,8 +17,4 @@ public class PackageOutput {
     private List<PackageThing> packageThings;
     private String packageOutput;
 
-    @Override
-    public String toString() {
-        return Strings.isNullOrEmpty(packageOutput) ? "" : packageOutput;
-    }
 }
