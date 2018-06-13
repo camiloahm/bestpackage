@@ -1,4 +1,4 @@
-# Package
+# Best Package
 
 The project is also available here https://github.com/camiloahm/bestpackage
 
