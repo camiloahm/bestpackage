@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * Loads an Input for Packer App from a File path
+ */
 @Slf4j
 final class FileLoader implements InputLoader {
 

@@ -26,7 +26,6 @@ $ ./gradlew build
 
 ```
 
-
 ### Dependency Injection Framework
 
 This is a standalone small app, so I decided to use a lightweight dependency injection framework  
