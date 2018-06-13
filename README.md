@@ -20,7 +20,11 @@ Patterns used:
 * Dependency Injection
 
 ### Build
-The App is packaged with Gradle
+The App is packaged with Gradle, to build this app you can execute 
+```
+$ ./gradlew build
+
+```
 
 
 ### Dependency Injection Framework
