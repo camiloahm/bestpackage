@@ -23,7 +23,6 @@ Patterns used:
 The App is packaged with Gradle, to build this app you can execute 
 ```
 $ ./gradlew build
-
 ```
 
 ### Dependency Injection Framework
